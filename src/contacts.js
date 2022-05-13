@@ -1,25 +1,25 @@
-const contacts = document.getElementsByClassName("contacts")[0];
-const stickyHeader = document.getElementsByClassName("stickyHeader")[0];
 
+const contacts = document.getElementsByClassName("contacts")[0], stickyHeader = document.getElementsByClassName("stickyHeader")[0];
 function addContacts() {
-  const fragment = document.createDocumentFragment();
+  let str='';
   for (let i = 0; i < 50000; i++) {
-    const child = document.createElement("div");
-    child.textContent = i;
-    child.classList.add("contact");
-    fragment.appendChild(child);
+    str += `<div class="contact">${i}</div>`;
   }
-  contacts.appendChild(fragment);
+  contacts.insertAdjacentHTML("beforeend", str);
 }
 
+let ticking = false;
 contacts.addEventListener("scroll", (e) => {
-  const items = Array.from(contacts.getElementsByClassName("contact"));
-  const itemOffsets = items.map((item) => item.offsetTop);
-  const topItemIndex = itemOffsets.findIndex(
-    (offset) => contacts.scrollTop - offset <= -18
-  );
-  if (topItemIndex !== -1) {
-    stickyHeader.textContent = items[topItemIndex].textContent;
+  if (!ticking) {
+    window.requestAnimationFrame(function() {
+      const items = Array.from(contacts.getElementsByClassName("contact"));
+      const topItemIndex = items.findIndex(
+        (el) => contacts.scrollTop - el.offsetTop <= -18
+      );
+      stickyHeader.textContent = items[topItemIndex].textContent;
+      ticking = false;
+    });
+    ticking = true;
   }
 });
 
