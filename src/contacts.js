@@ -10,17 +10,8 @@ function addContacts() {
 
 let ticking = false;
 contacts.addEventListener("scroll", (e) => {
-  if (!ticking) {
-    window.requestAnimationFrame(function() {
-      const items = Array.from(contacts.getElementsByClassName("contact"));
-      const topItemIndex = items.findIndex(
-        (el) => contacts.scrollTop - el.offsetTop <= -18
-      );
-      stickyHeader.textContent = items[topItemIndex].textContent;
-      ticking = false;
-    });
-    ticking = true;
-  }
+  const elem_ofset = document.getElementsByClassName("contact")[0].offsetTop;
+  stickyHeader.textContent = (contacts.scrollTop / elem_ofset).toFixed();
 });
 
 addContacts();
