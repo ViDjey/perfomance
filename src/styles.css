@@ -4,6 +4,8 @@
     overflow-y: scroll;
     height: 300px;
     position: relative;
+    scroll-snap-align: start;
+
 }
 
 .contact {
@@ -18,3 +20,4 @@
     margin: 0;
     padding: 0;
 }
+    
